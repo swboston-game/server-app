@@ -6,31 +6,26 @@ using System.Web.Http;
 
 namespace GameApp.WebRole.Controllers
 {
-    public class ValuesController : ApiController
+    public class GameController : ApiController
     {
-        // GET /api/values
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
-        // GET /api/values/5
+        // GET /api/game/5
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST /api/values
+        // POST /api/game
         public void Post(string value)
         {
         }
 
-        // PUT /api/values/5
+        // PUT /api/game/5
         public void Put(int id, string value)
         {
         }
 
-        // DELETE /api/values/5
+        // DELETE /api/game/5
         public void Delete(int id)
         {
         }

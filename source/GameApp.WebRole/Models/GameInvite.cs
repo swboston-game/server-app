@@ -7,5 +7,6 @@ namespace GameApp.WebRole.Models
 {
     public class GameInvite
     {
+        public int Id { get; set; }
     }
 }

@@ -5,8 +5,7 @@ using System.Web;
 
 namespace GameApp.WebRole.Models
 {
-    public class User
+    public class CannedAnswer
     {
-        public int Id { get; set; }
     }
 }

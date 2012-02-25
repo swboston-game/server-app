@@ -7,5 +7,6 @@ namespace GameApp.WebRole.Models
 {
     public class CannedAnswer
     {
+        public int Id { get; set; }
     }
 }

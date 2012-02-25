@@ -43,8 +43,7 @@ namespace GameApp.WebRole
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            BundleTable.Bundles.EnableDefaultBundles();
-            //BundleTable.Bundles.RegisterTemplateBundles();
+            BundleTable.Bundles.RegisterTemplateBundles();
         }
     }
 }

@@ -7,5 +7,8 @@ namespace GameApp.WebRole.Models
 {
     public class Game
     {
+
+        public int Id { get; set; }
+
     }
 }
