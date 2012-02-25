@@ -17,7 +17,7 @@ namespace GameApp.WebRole.Models
         public int Turns { get; set; }
         public bool IsActive { get; set; }
         public User CurrentPlayer { get; set; }
-        public User? Winner { get; set; }
+        public User Winner { get; set; }
         public List<GameMove> Moves { get; set; }
         public List<GamePiece> Pieces { get; set; }
         public GamePiece CorrectAnswer { get; set; }

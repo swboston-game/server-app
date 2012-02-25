@@ -31,7 +31,6 @@ namespace GameApp.WebRole.Migrations
             //
 
             context.CannedAnswers.AddOrUpdate(
-                p => p.Question,
                 new CannedAnswer { Id = Guid.NewGuid(), Question = "Does this person have ADD?" },
                 new CannedAnswer { Id = Guid.NewGuid(), Question = "Is this person at the Boston startup weekend?" },
                 new CannedAnswer { Id = Guid.NewGuid(), Question = "Is this person male?" },
@@ -42,9 +41,8 @@ namespace GameApp.WebRole.Migrations
                 new CannedAnswer { Id = Guid.NewGuid(), Question = "Is this person wearing red?" },
                 new CannedAnswer { Id = Guid.NewGuid(), Question = "Is this person wearing blue?" },
                 new CannedAnswer { Id = Guid.NewGuid(), Question = "Does this person like to ask a ton of questions?" },
-                new CannedAnswer { Id = Guid.NewGuid(), Question = "Does this person think they know everything?" },
-                new CannedAnswer { }
-                );
+                new CannedAnswer { Id = Guid.NewGuid(), Question = "Does this person think they know everything?" }
+            );
 
         }
     }
