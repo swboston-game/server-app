@@ -17,5 +17,10 @@ namespace GameApp.WebRole.Controllers {
         public ActionResult Contact() {
             return View();
         }
+
+        public ActionResult Game()
+        {
+            return View();
+        }
     }
 }
