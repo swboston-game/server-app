@@ -1,22 +1,14 @@
-namespace GameApp.WebRole.Migrations
-{
+namespace GameApp.WebRole.Migrations {
     using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
-    using GameApp.WebRole.Models;
-    using System.Collections;
-    using System.Collections.Generic;
+    using Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<GameApp.WebRole.Models.GameContext>
-    {
-        public Configuration()
-        {
+    internal sealed class Configuration : DbMigrationsConfiguration<GameContext> {
+        public Configuration() {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(GameApp.WebRole.Models.GameContext context)
-        {
+        protected override void Seed(GameContext context) {
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
@@ -43,6 +35,12 @@ namespace GameApp.WebRole.Migrations
                 new CannedAnswer { Id = Guid.NewGuid(), Question = "Does this person like to ask a ton of questions?" },
                 new CannedAnswer { Id = Guid.NewGuid(), Question = "Does this person think they know everything?" }
             );
+
+            context.Users.AddOrUpdate(
+
+                new User { Email = "player1@player1.com", FirstName = "Player", Id = 1, LastName = "One" },
+                new User { Email = "player2@player2.com", FirstName = "Player", Id = 2, LastName = "Two" }
+                );
 
         }
     }

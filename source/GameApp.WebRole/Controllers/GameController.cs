@@ -5,10 +5,8 @@ using System.Net.Http;
 using System.Web.Http;
 using GameApp.WebRole.Models;
 
-namespace GameApp.WebRole.Controllers
-{
-    public class GameController : ApiController
-    {
+namespace GameApp.WebRole.Controllers {
+    public class GameController : ApiController {
         private static GameContext context = new GameContext();
         /// <summary>
         /// Invite a Facebook friend to play a game.
@@ -38,18 +36,25 @@ namespace GameApp.WebRole.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Game Get(int id)
-        {
-            return context.Games.Single(g => g.Id == id);
+        public Game Get(int id) {
+            var game = context.Games.SingleOrDefault(g => g.Id == id);
+            if (game == null) {
+                game = new Game {
+                    IsActive = true,
+                    Player1 = context.Users.Single(u => u.Id == 1),
+                    Player2 = context.Users.Single(u => u.Id == 2)
+                };
+            }
+            return game;
         }
 
         /// <summary>
         /// Play a turn in a game.
         /// </summary>
-        public void PlayMove(int gameId, long playerId, long faceBookId)
-        {
+        public void PlayMove(int gameId, long playerId, long faceBookId) {
             var game = context.Games.Single(g => g.Id == gameId);
-       
+
+
         }
 
         /// <summary>
