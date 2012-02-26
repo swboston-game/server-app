@@ -38,13 +38,19 @@ namespace GameApp.WebRole.Controllers {
         /// <returns></returns>
         public Game Get(int id) {
             var game = context.Games.SingleOrDefault(g => g.Id == id);
-            if (game == null) {
+            if (game == null)
+            {
+                var count = context.Games.Count();
                 game = new Game {
+                    Id = count + 1,
                     IsActive = true,
                     Player1 = context.Users.Single(u => u.Id == 1),
-                    Player2 = context.Users.Single(u => u.Id == 2)
+                    Player2 = context.Users.Single(u => u.Id == 2),
+
                 };
+                context.Games.Add(game);
             }
+            context.SaveChanges();
             return game;
         }
 
