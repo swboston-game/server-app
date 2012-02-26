@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Web.Http;
 using GameApp.WebRole.Models;
 
@@ -10,23 +9,23 @@ namespace GameApp.WebRole.Controllers {
         private static readonly GameContext Context = new GameContext();
 
         private List<Tuple<int, long>> _people = new List<Tuple<int, long>>
-                             {
-                                 Tuple.Create(1, 4L),
-                                 Tuple.Create(2, 1269565700L),
-                                 Tuple.Create(3, 1238130858L),
-                                 Tuple.Create(4, 1201700386L),
-                                 Tuple.Create(5, 1063140540L),
-                                 Tuple.Create(6, 1435451815L),
-                                 Tuple.Create(7, 1332833126L),
-                                 Tuple.Create(8, 14903120L),
-                                 Tuple.Create(9, 515673069L),
-                                 Tuple.Create(10, 14812017L),
-                                 Tuple.Create(11, 100003566112576L),
-                                 Tuple.Create(12, 5L),
-                                 Tuple.Create(13, 6L),
-                                 Tuple.Create(14, 7L),
-                                 Tuple.Create(15, 8L)
-                             };
+							 {
+								 Tuple.Create(1, 4L),
+								 Tuple.Create(2, 1269565700L),
+								 Tuple.Create(3, 1238130858L),
+								 Tuple.Create(4, 1201700386L),
+								 Tuple.Create(5, 1063140540L),
+								 Tuple.Create(6, 1435451815L),
+								 Tuple.Create(7, 1332833126L),
+								 Tuple.Create(8, 14903120L),
+								 Tuple.Create(9, 515673069L),
+								 Tuple.Create(10, 14812017L),
+								 Tuple.Create(11, 100003566112576L),
+								 Tuple.Create(12, 5L),
+								 Tuple.Create(13, 6L),
+								 Tuple.Create(14, 7L),
+								 Tuple.Create(15, 8L)
+							 };
         /// <summary>
         /// Invite a Facebook friend to play a game.
         /// </summary>
@@ -86,7 +85,7 @@ namespace GameApp.WebRole.Controllers {
         /// Play a turn in a game.
         /// </summary>
         public void PlayMove(int gameId, long senderId, long receiverId, long faceBookId, string question) {
-            var game = context.Games.Single(g => g.Id == gameId);
+            var game = Context.Games.Single(g => g.Id == gameId);
 
             User usr = new User();
             usr.Id = senderId;
@@ -100,9 +99,8 @@ namespace GameApp.WebRole.Controllers {
             game.Moves.Add(move);
         }
 
-        public void RecieveAnswerToQuestion(int gameId, long senderId, long receiverId, bool answer)
-        {
-            var game = context.Games.Single(g => g.Id == gameId);
+        public void RecieveAnswerToQuestion(int gameId, long senderId, long receiverId, bool answer) {
+            var game = Context.Games.Single(g => g.Id == gameId);
 
             User usr = new User();
             usr.Id = receiverId;
@@ -113,8 +111,8 @@ namespace GameApp.WebRole.Controllers {
             move.Player = usr;
 
             game.Moves.Add(move);
-		}
-		
+        }
+
         public void SetCorrectAnswer(int playerId, int pieceId, int gameId) {
             var game = Context.Games.Single(g => g.Id == gameId);
             if (playerId == 1) {
