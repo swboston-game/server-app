@@ -57,8 +57,34 @@ namespace GameApp.WebRole.Controllers {
         /// <summary>
         /// Play a turn in a game.
         /// </summary>
-        public void PlayMove(int gameId, long playerId, long faceBookId) {
+        public void PlayMove(int gameId, long senderId, long receiverId, long faceBookId, string question) {
             var game = context.Games.Single(g => g.Id == gameId);
+
+            User usr = new User();
+            usr.Id = senderId;
+
+            GameMove move = new GameMove();
+            move.Question = question;
+            move.Game = game;
+            move.Id = gameId;
+            move.Player = usr;
+
+            game.Moves.Add(move);
+        }
+
+        public void RecieveAnswerToQuestion(int gameId, long senderId, long receiverId, bool answer)
+        {
+            var game = context.Games.Single(g => g.Id == gameId);
+
+            User usr = new User();
+            usr.Id = receiverId;
+
+            GameMove move = new GameMove();
+            move.Game = game;
+            move.Id = gameId;
+            move.Player = usr;
+
+            game.Moves.Add(move);
         }
 
         public void HidePiece(int gameId, long playerId, long gamePieceId) {
