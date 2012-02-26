@@ -55,23 +55,19 @@ namespace GameApp.WebRole.Controllers {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Game Get(int id)
-        {
+        public Game Get(int id) {
             var pieces = new List<GamePiece>();
-            foreach(var person in _people)
-            {
-                var gamePiece = new GamePiece
-                                    {
-                                        Id = person.Item1,
-                                        Player1Status = true,
-                                        Player2Status = true,
-                                        FacebookId = person.Item2
-                                    };
+            foreach (var person in _people) {
+                var gamePiece = new GamePiece {
+                    Id = person.Item1,
+                    Player1Status = true,
+                    Player2Status = true,
+                    FacebookId = person.Item2
+                };
 
             }
             var game = Context.Games.SingleOrDefault(g => g.Id == id);
-            if (game == null)
-            {
+            if (game == null) {
                 var count = Context.Games.Count();
                 game = new Game {
                     Id = count + 1,
@@ -93,22 +89,24 @@ namespace GameApp.WebRole.Controllers {
             var game = Context.Games.Single(g => g.Id == gameId);
         }
 
-        public void SetCorrectAnswer(int playerId, int pieceId, int gameId)
-        {
+        public void SetCorrectAnswer(int playerId, int pieceId, int gameId) {
             var game = Context.Games.Single(g => g.Id == gameId);
-            if (playerId == 1)
-            {
+            if (playerId == 1) {
                 game.Player1CorrectAnswer = Context.GamePeices.Single(g => g.Id == pieceId);
-            }
-            else
-            {
+            } else {
                 game.Player2CorrectAnswer = Context.GamePeices.Single(g => g.Id == pieceId);
             }
             Context.SaveChanges();
         }
 
         public void HidePiece(int gameId, long playerId, long gamePieceId) {
-
+            var gamePiece = Context.GamePeices.Single(p => p.Id == gamePieceId && p.Game.Id == gameId);
+            if (playerId == 1) {
+                gamePiece.Player1Status = false;
+            } else {
+                gamePiece.Player2Status = false;
+            }
+            Context.SaveChanges();
         }
 
         /// <summary>
