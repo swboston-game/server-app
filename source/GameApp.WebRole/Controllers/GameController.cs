@@ -53,7 +53,9 @@ namespace GameApp.WebRole.Controllers {
         /// </summary>
         public void PlayMove(int gameId, long playerId, long faceBookId) {
             var game = context.Games.Single(g => g.Id == gameId);
+        }
 
+        public void HidePiece(int gameId, long playerId, long gamePieceId) {
 
         }
 
