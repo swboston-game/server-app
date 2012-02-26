@@ -9,7 +9,7 @@ namespace GameApp.WebRole.Controllers
 {
     public class GameController : ApiController
     {
-
+        private static GameContext context = new GameContext();
         /// <summary>
         /// Invite a Facebook friend to play a game.
         /// </summary>
@@ -38,14 +38,18 @@ namespace GameApp.WebRole.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string Get(int id) {
-            throw new NotImplementedException();
+        public Game Get(int id)
+        {
+            return context.Games.Single(g => g.Id == id);
         }
 
         /// <summary>
         /// Play a turn in a game.
         /// </summary>
-        public void PlayMove() {
+        public void PlayMove(int gameId, long playerId, long faceBookId)
+        {
+            var game = context.Games.Single(g => g.Id == gameId);
+       
         }
 
         /// <summary>
