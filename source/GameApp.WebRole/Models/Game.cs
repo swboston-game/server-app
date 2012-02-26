@@ -20,7 +20,7 @@ namespace GameApp.WebRole.Models
         public User Winner { get; set; }
         public List<GameMove> Moves { get; set; }
         public List<GamePiece> Pieces { get; set; }
-        public GamePiece CorrectAnswer { get; set; }
-
+        public GamePiece Player1CorrectAnswer { get; set; }
+        public GamePiece Player2CorrectAnswer { get; set; }
     }
 }
