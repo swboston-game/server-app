@@ -50,9 +50,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.4.3.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Facebook">
-      <HintPath>..\packages\Facebook.5.4.1.0\lib\net40-client\Facebook.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -155,7 +152,9 @@
     <Compile Include="WebRole.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\hiddenuser.png" />
     <Content Include="Scripts\jquery.pjax.js" />
+    <Content Include="Scripts\js\game.js" />
     <Content Include="Styles\bootstrap-responsive.css" />
     <Content Include="Styles\bootstrap-responsive.min.css" />
     <Content Include="Styles\bootstrap.css" />
@@ -220,6 +219,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Game.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery.query.js" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
