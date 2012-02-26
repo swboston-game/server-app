@@ -7,7 +7,26 @@ using GameApp.WebRole.Models;
 
 namespace GameApp.WebRole.Controllers {
     public class GameController : ApiController {
-        private static GameContext context = new GameContext();
+        private static readonly GameContext Context = new GameContext();
+
+        private List<Tuple<int, long>> _people = new List<Tuple<int, long>>
+                             {
+                                 Tuple.Create(1, 4L),
+                                 Tuple.Create(2, 1269565700L),
+                                 Tuple.Create(3, 1238130858L),
+                                 Tuple.Create(4, 1201700386L),
+                                 Tuple.Create(5, 1063140540L),
+                                 Tuple.Create(6, 1435451815L),
+                                 Tuple.Create(7, 1332833126L),
+                                 Tuple.Create(8, 14903120L),
+                                 Tuple.Create(9, 515673069L),
+                                 Tuple.Create(10, 14812017L),
+                                 Tuple.Create(11, 100003566112576L),
+                                 Tuple.Create(12, 5L),
+                                 Tuple.Create(13, 6L),
+                                 Tuple.Create(14, 7L),
+                                 Tuple.Create(15, 8L)
+                             };
         /// <summary>
         /// Invite a Facebook friend to play a game.
         /// </summary>
@@ -36,21 +55,34 @@ namespace GameApp.WebRole.Controllers {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Game Get(int id) {
-            var game = context.Games.SingleOrDefault(g => g.Id == id);
+        public Game Get(int id)
+        {
+            var pieces = new List<GamePiece>();
+            foreach(var person in _people)
+            {
+                var gamePiece = new GamePiece
+                                    {
+                                        Id = person.Item1,
+                                        Player1Status = true,
+                                        Player2Status = true,
+                                        FacebookId = person.Item2
+                                    };
+
+            }
+            var game = Context.Games.SingleOrDefault(g => g.Id == id);
             if (game == null)
             {
-                var count = context.Games.Count();
+                var count = Context.Games.Count();
                 game = new Game {
                     Id = count + 1,
                     IsActive = true,
-                    Player1 = context.Users.Single(u => u.Id == 1),
-                    Player2 = context.Users.Single(u => u.Id == 2),
-
+                    Player1 = Context.Users.Single(u => u.Id == 1),
+                    Player2 = Context.Users.Single(u => u.Id == 2),
+                    Pieces = pieces
                 };
-                context.Games.Add(game);
+                Context.Games.Add(game);
             }
-            context.SaveChanges();
+            Context.SaveChanges();
             return game;
         }
 
@@ -85,6 +117,20 @@ namespace GameApp.WebRole.Controllers {
             move.Player = usr;
 
             game.Moves.Add(move);
+		}
+		
+        public void SetCorrectAnswer(int playerId, int pieceId, int gameId)
+        {
+            var game = Context.Games.Single(g => g.Id == gameId);
+            if (playerId == 1)
+            {
+                game.Player1CorrectAnswer = Context.GamePeices.Single(g => g.Id == pieceId);
+            }
+            else
+            {
+                game.Player2CorrectAnswer = Context.GamePeices.Single(g => g.Id == pieceId);
+            }
+            Context.SaveChanges();
         }
 
         public void HidePiece(int gameId, long playerId, long gamePieceId) {
