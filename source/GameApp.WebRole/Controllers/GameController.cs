@@ -93,6 +93,20 @@ namespace GameApp.WebRole.Controllers {
             var game = Context.Games.Single(g => g.Id == gameId);
         }
 
+        public void SetCorrectAnswer(int playerId, int pieceId, int gameId)
+        {
+            var game = Context.Games.Single(g => g.Id == gameId);
+            if (playerId == 1)
+            {
+                game.Player1CorrectAnswer = Context.GamePeices.Single(g => g.Id == pieceId);
+            }
+            else
+            {
+                game.Player2CorrectAnswer = Context.GamePeices.Single(g => g.Id == pieceId);
+            }
+            Context.SaveChanges();
+        }
+
         public void HidePiece(int gameId, long playerId, long gamePieceId) {
 
         }
