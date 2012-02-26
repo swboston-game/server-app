@@ -133,6 +133,15 @@ namespace GameApp.WebRole.Controllers {
             Context.SaveChanges();
         }
 
+        public List<string> CannedQuestions()
+        {
+            List<string> questions = new List<string>();
+
+            questions = Context.CannedAnswers.Select(q => q.Question).ToList();
+
+            return questions;
+        }
+
         /// <summary>
         /// Guess the answer to the game.
         /// </summary>
