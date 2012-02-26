@@ -136,7 +136,23 @@ namespace GameApp.WebRole.Controllers {
         /// <summary>
         /// Guess the answer to the game.
         /// </summary>
-        public void Guess() {
+        public bool Guess(int gameId, long playerId, long gamePieceId) {
+            var game = Context.Games.Single(g => g.Id == gameId);
+            if (playerId == 1) {
+                if (game.Player1CorrectAnswer.Id == gamePieceId) {
+                    game.Winner = new User { Id = 1L };
+                    Context.SaveChanges();
+                    return true;
+                }
+            } else {
+                if (game.Player2CorrectAnswer.Id == gamePieceId) {
+                    game.Winner = new User { Id = 2L };
+                    Context.SaveChanges();
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
