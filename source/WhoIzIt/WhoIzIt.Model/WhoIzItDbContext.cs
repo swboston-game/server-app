@@ -9,5 +9,4 @@ namespace WhoIzIt.Model
         public DbSet<Invite> Invites { get; set; }
         public DbSet<Question> Questions { get; set; }
     }
-    }
 }

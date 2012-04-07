@@ -21,5 +21,15 @@ namespace WhiIzIt.BLL
         {
             throw new System.NotImplementedException();
         }
+
+        internal void GameOver(int gameId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Invite(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

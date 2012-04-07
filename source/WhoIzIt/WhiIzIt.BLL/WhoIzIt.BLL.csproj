@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="GameService.cs" />
     <Compile Include="NotificationService.cs" />
+    <Compile Include="PlayerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

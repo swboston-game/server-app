@@ -5,7 +5,6 @@ using WhoIzIt.Model;
 
 namespace WhiIzIt.BLL
 {
-
     public class GameService
     {
         private readonly WhoIzItDbContext _context = new WhoIzItDbContext();
@@ -21,6 +20,7 @@ namespace WhiIzIt.BLL
                              };
             _context.Invites.Add(invite);
             _context.SaveChanges();
+            _notificationService.Invite(invite.Id);
         }
 
         public Game AcceptInvite(int challengerId, int opponentId)
@@ -30,6 +30,7 @@ namespace WhiIzIt.BLL
                     i =>
                     i.Challenger.Id == challengerId && i.Opponent.Id == opponentId && i.Status == InviteStatus.Waiting);
             invite.Status = InviteStatus.Accepted;
+            invite.UpdatedOn = DateTime.Now;
             _context.SaveChanges();
             _notificationService.InviteAccepted(challengerId);
             var game = CreateGame(invite.Challenger, invite.Opponent);
@@ -43,23 +44,26 @@ namespace WhiIzIt.BLL
                     i =>
                     i.Challenger.Id == challengerId && i.Opponent.Id == opponentId && i.Status == InviteStatus.Waiting);
             invite.Status = InviteStatus.Declined;
+            invite.UpdatedOn = DateTime.Now;
             _context.SaveChanges();
             _notificationService.InviteDeclined(challengerId);
         }
 
         public Game CreateGame(Player challenger, Player opponent)
         {
-            var game = new Game();
-            game.Challenger = challenger;
-            game.Opponent = opponent;
-            game.Status = GameStatus.SettingUp;
-            game.GamePieces = GenerateGamePieces(challenger, opponent);
+            var game = new Game
+                           {
+                               Challenger = challenger,
+                               Opponent = opponent,
+                               Status = GameStatus.SettingUp,
+                               GamePieces = GenerateGamePieces(challenger, opponent)
+                           };
             _context.Games.Add(game);
             _context.SaveChanges();
             return game;
         }
 
-        private IEnumerable<GamePiece> GenerateGamePieces(Player challenger, Player opponent)
+        private ICollection<GamePiece> GenerateGamePieces(Player challenger, Player opponent)
         {
             throw new NotImplementedException();
         }
@@ -80,14 +84,13 @@ namespace WhiIzIt.BLL
                 game.Status = GameStatus.InProgress;
                 game.PlayersMove = game.Opponent;
             }
+            game.UpdatedOn = DateTime.Now;
             _context.SaveChanges();
         }
 
         public void AskQuestion(int gameId, int playerId, string questionText)
         {
-            var question = new Question();
-            question.QuestionText = questionText;
-            question.Status = QuestionStatus.UnAnswered;
+            var question = new Question { QuestionText = questionText, Status = QuestionStatus.UnAnswered };
             var game = _context.Games.Single(g => g.Id == gameId);
             game.Questions.Add(question);
             _context.SaveChanges();
@@ -107,12 +110,13 @@ namespace WhiIzIt.BLL
         public bool Guess(int gameId, int playerId, int gamePieceId)
         {
             var game = _context.Games.Single(g => g.Id == gameId);
+            var won = false;
             if (game.Opponent.Id == playerId)
             {
                 if (game.ChallengerSelection.Id == gamePieceId)
                 {
                     game.Winner = game.Opponent;
-                    return true;
+                    won = true;
                 }
                 game.Winner = game.Challenger;
             }
@@ -122,13 +126,15 @@ namespace WhiIzIt.BLL
                 {
                     game.Winner = game.Challenger;
                     game.Status = GameStatus.Completed;
-                    return true;
+                    won = true;
                 }
                 game.Winner = game.Opponent;
             }
             game.Status = GameStatus.Completed;
             game.UpdatedOn = DateTime.Now;
-            return false;
+            _context.SaveChanges();
+            _notificationService.GameOver(gameId);
+            return won;
         }
     }
 }
