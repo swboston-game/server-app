@@ -2,7 +2,8 @@
 {
     public enum GameStatus
     {
-        InProgress
-        , Completed
+        InProgress,
+        Completed,
+        SettingUp
     }
 }
