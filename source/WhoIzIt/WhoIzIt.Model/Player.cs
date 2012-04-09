@@ -1,4 +1,6 @@
-﻿namespace WhoIzIt.Model
+﻿using System.Collections.Generic;
+
+namespace WhoIzIt.Model
 {
     public class Player : BaseEntity
     {
@@ -8,5 +10,8 @@
         public int Streak { get; set; }
         public int Wins { get; set; }
         public int Loses { get; set; }
+        public virtual ICollection<Badge> Badges { get; set; }
+        public int TotalPoints { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using WhoIzIt.Model;
 
@@ -9,6 +8,7 @@ namespace WhiIzIt.BLL
     {
         private readonly WhoIzItDbContext _context = new WhoIzItDbContext();
         private readonly NotificationService _notificationService = new NotificationService();
+        private readonly GamePiecesService _gamePiecesService = new GamePiecesService();
 
         public void Invite(int challengerId, int opponentId)
         {
@@ -56,16 +56,11 @@ namespace WhiIzIt.BLL
                                Challenger = challenger,
                                Opponent = opponent,
                                Status = GameStatus.SettingUp,
-                               GamePieces = GenerateGamePieces(challenger, opponent)
+                               GamePieces = _gamePiecesService.GenerateGamePieces(challenger.Id, opponent.Id)
                            };
             _context.Games.Add(game);
             _context.SaveChanges();
             return game;
-        }
-
-        private ICollection<GamePiece> GenerateGamePieces(Player challenger, Player opponent)
-        {
-            throw new NotImplementedException();
         }
 
         public void SelectGamePiece(int playerId, int gameId, int gamePieceId)

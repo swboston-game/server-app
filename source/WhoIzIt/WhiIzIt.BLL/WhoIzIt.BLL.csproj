@@ -44,7 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GamePiecesService.cs" />
     <Compile Include="GameService.cs" />
+    <Compile Include="LeaderBoardService.cs" />
+    <Compile Include="LeaderBoardView.cs" />
     <Compile Include="NotificationService.cs" />
     <Compile Include="PlayerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

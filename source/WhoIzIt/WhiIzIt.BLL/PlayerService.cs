@@ -9,10 +9,13 @@ namespace WhiIzIt.BLL
 
         public void CreatePlayer(string email, string displayName, string faceBookId)
         {
-            var player = new Player();
-            player.DisplayName = displayName;
-            player.Email = email;
-            player.FaceBookId = faceBookId;
+            var player = new Player
+            {
+                DisplayName = displayName,
+                Email = email,
+                FaceBookId = faceBookId
+            };
+            player.TotalPoints += 1000;
             _context.Players.Add(player);
             _context.SaveChanges();
         }
@@ -22,6 +25,7 @@ namespace WhiIzIt.BLL
             var player = _context.Players.Single(p => p.Id == playerId);
             player.Wins += 1;
             player.Streak += 1;
+            player.TotalPoints += 500;
             _context.SaveChanges();
         }
 
@@ -30,6 +34,14 @@ namespace WhiIzIt.BLL
             var player = _context.Players.Single(p => p.Id == playerId);
             player.Loses += 1;
             player.Streak = 0;
+            player.TotalPoints += 100;
+            _context.SaveChanges();
+        }
+
+        public void IncreasePoints(int playerId, int points)
+        {
+            var player = _context.Players.Single(p => p.Id == playerId);
+            player.TotalPoints += points;
             _context.SaveChanges();
         }
     }
