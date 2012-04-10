@@ -5,9 +5,22 @@ using WhoIzIt.Model;
 
 namespace WhiIzIt.BLL
 {
-    public class GamePiecesService
+    //TODO: if in the future we want to have multiple social networks or our own, this should be implemented per social network
+    public class GamePiecesService : IGamePiecesService
     {
-        private readonly WhoIzItDbContext _context = new WhoIzItDbContext();
+        //TODO: do some dependency injections (maybe for beta)
+        private readonly IWhoIzItDbContext _context = null;
+
+        public GamePiecesService()
+        {
+            _context = new WhoIzItDbContext();
+        }
+
+        public GamePiecesService(IWhoIzItDbContext context)
+        {
+            _context = context;
+        }
+
         public ICollection<GamePiece> GenerateGamePieces(int challengerId, int opponentId)
         {
             var challenger = _context.Players.Single(p => p.Id == challengerId);

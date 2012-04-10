@@ -4,11 +4,26 @@ using WhoIzIt.Model;
 
 namespace WhiIzIt.BLL
 {
-    public class GameService
+    public class GameService : IGameService
     {
-        private readonly WhoIzItDbContext _context = new WhoIzItDbContext();
-        private readonly NotificationService _notificationService = new NotificationService();
-        private readonly GamePiecesService _gamePiecesService = new GamePiecesService();
+        //TODO: do some dependency injections (maybe for beta)
+        private readonly IWhoIzItDbContext _context = new WhoIzItDbContext();
+        private readonly INotificationService _notificationService = new FacebookNotificationService();
+        private readonly IGamePiecesService _gamePiecesService = new GamePiecesService();
+
+        public GameService()
+        {
+            _context = new WhoIzItDbContext();
+            _notificationService = new FacebookNotificationService();
+            _gamePiecesService = new GamePiecesService();
+        }
+
+        public GameService(IWhoIzItDbContext context, INotificationService notificationService, IGamePiecesService gamePieceService)
+        {
+            _context = context;
+            _notificationService = notificationService;
+            _gamePiecesService = gamePieceService;
+        }
 
         public void Invite(int challengerId, int opponentId)
         {

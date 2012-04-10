@@ -44,11 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FacebookNotificationService.cs" />
     <Compile Include="GamePiecesService.cs" />
     <Compile Include="GameService.cs" />
+    <Compile Include="IGamePiecesService.cs" />
+    <Compile Include="IGameService.cs" />
+    <Compile Include="INotificationService.cs" />
     <Compile Include="LeaderBoardService.cs" />
     <Compile Include="LeaderBoardView.cs" />
-    <Compile Include="NotificationService.cs" />
     <Compile Include="PlayerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
