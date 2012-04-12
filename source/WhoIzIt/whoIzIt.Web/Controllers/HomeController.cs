@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace whoIzIt.Web.Controllers
 {
@@ -10,8 +11,8 @@ namespace whoIzIt.Web.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
+            string authUrl = String.Format("https://www.facebook.com/dialog/oauth?client_id={0}&redirect_uri={1}");
+            ViewBag.Port = Request.Url.Port;
             return View();
         }
 
@@ -26,6 +27,12 @@ namespace whoIzIt.Web.Controllers
         {
             ViewBag.Message = "Your quintessential contact page.";
 
+            return View();
+        }
+
+        [OutputCache(Duration=60*60*24*365, Location=OutputCacheLocation.ServerAndClient)]
+        public ActionResult Channel()
+        {
             return View();
         }
     }
