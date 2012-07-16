@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl='urn:schemas-microsoft-com:xslt'>
+  <xsl:output omit-xml-declaration="yes" /> 
 
   <!-- Keys -->
   <xsl:key name="ProjectKey" match="Event" use="@Project" />
@@ -22,7 +23,7 @@
   </xsl:template>
 
   <!-- Intermediate Templates -->
-  <xsl:template match="UpgradeLog" mode="ProjectOverviewXML">
+  <xsl:template match="UpgradeReport" mode="ProjectOverviewXML">
     <Projects>
       <xsl:for-each select="Event[generate-id(.) = generate-id(key('ProjectKey', @Project))]">
         <Project>
@@ -72,7 +73,7 @@
             <xsl:value-of select="translate($projectName, '\', '-')"/>
           </xsl:attribute>
           <xsl:attribute name="Solution">
-            <xsl:value-of select="/UpgradeLog/Properties/Property[@Name='Solution']/@Value"/>
+            <xsl:value-of select="/UpgradeReport/Properties/Property[@Name='Solution']/@Value"/>
           </xsl:attribute>
           <xsl:attribute name="Source">
             <xsl:value-of select="@Source"/>
@@ -143,7 +144,7 @@
         <th _locID="WarningsTableHeader">Warnings</th>
         <th _locID="MessagesTableHeader">Messages</th>
       </tr>
-      <tr>
+
         <xsl:for-each select="Project">
 
           <xsl:sort select="@ErrorCount" order="descending" />
@@ -216,7 +217,6 @@
             </td>
           </tr>
         </xsl:for-each>
-      </tr>
     </table>
   </xsl:template>
 
@@ -380,21 +380,25 @@
     </xsl:for-each>
   </xsl:template>
 
-  <!-- Document, matches "UpgradeLog" -->
-  <xsl:template match="UpgradeLog">
+  <!-- Document, matches "UpgradeReport" -->
+  <xsl:template match="UpgradeReport">
+    <!-- Output doc type the 'Mark of the web' which disabled prompting to run JavaScript from local HTML Files in IE --> 
+    <!-- NOTE: The whitespace around the 'Mark of the web' is important it must be exact --> 
+    <xsl:text disable-output-escaping="yes"><![CDATA[<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+]]>
+    </xsl:text>
     <html>
       <head>
         <meta content="en-us" http-equiv="Content-Language" />
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <meta content="text/html; charset=utf-16" http-equiv="Content-Type" />
         <link type="text/css" rel="stylesheet" href="_UpgradeReport_Files\UpgradeReport.css" />
         <title _locID="ConversionReport0">
-          Migration Report&#160;
-          <xsl:if test="Properties/Property[@Name='LogNumber']">
-            <xsl:value-of select="Properties/Property[@Name='LogNumber']/@Value"/>
-          </xsl:if>
+          Migration Report
         </title>
 
         <script type="text/javascript" language="javascript">
+        <xsl:text disable-output-escaping="yes">
           <![CDATA[
           
             // Startup 
@@ -454,10 +458,16 @@
                      return text; 
                  }
 
+                 // Find {DriveLetter}:\Something or \\{uncshare}\something strings and replace them with file:/// links
+                 // It expects that a path ends in .extension, and that that extension does not have a space within it,
+                 // it does this as not to greedily match in the case of "Text C:\foo\file.txt some other text" 
+                 var filePath = /([A-z]\:|\\{2}[A-z].+)\\([^<]+)\.([^<\s]+)/gi;
+                 
                  // Find http, https and ftp links and replace them with hyper links 
                  var urlLink = /(http|https|ftp)\:\/\/[a-zA-Z0-9\-\.]+(:[a-zA-Z0-9]*)?\/?([a-zA-Z0-9\-\._\?\,\/\\\+&%\$#\=~;\{\}])*/gi;
                  
-                 return text.replace(urlLink, '<a href="$&">$&</a>') ;
+                 return text.replace(filePath, '<a class="localLink" href="file:///$&">$&</a>')
+                            .replace(urlLink, '<a href="$&">$&</a>') ;
             }
             
             // Linkifies the specified element by ID
@@ -497,6 +507,7 @@
               }
             }
           ]]>
+        </xsl:text>
         </script>
       </head>
       <body>
